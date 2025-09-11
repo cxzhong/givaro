@@ -46,6 +46,7 @@ inline
 typename std::enable_if<SUITABLE_INTEGRAL_TYPES (ELEMENT, COMPUTE_T, s)>::type
 precomp_b
 (Compute_t& invb, const Element& b) const{
+#ifdef __GIVARO_DEBUG
     size_t bitsizep(0);
     Element tmp = _p;
     while (tmp != 0)
@@ -54,6 +55,7 @@ precomp_b
         tmp >>= 1;
     }
     assert( bitsizep <= (4*s-1));
+#endif
     invb = (static_cast<Compute_t>(1) << (4*s)) * static_cast<Compute_t>(static_cast<Residu_t>(b)) / static_cast<Compute_t>(_p);
 }
 
@@ -70,7 +72,6 @@ precomp_b
         tmp >>= 1;
     }
     assert( bitsizep <= (4*s-2));
-
     invb = (static_cast<Compute_t>(static_cast<Residu_t>(b)) * invp) >> (bitsizep - 1);
     Residu_t r = - static_cast<Residu_t>(invb) * _p;
 
