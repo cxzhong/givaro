@@ -137,20 +137,6 @@ jobs:
         cd build-macos
         make check
     
-    - name: Build
-      run: |
-        LLVM_PREFIX=$(brew --prefix llvm)
-        export PATH="${LLVM_PREFIX}/bin:$PATH"
-        cd build-macos
-        make -j$(sysctl -n hw.ncpu)
-    
-    - name: Test
-      run: |
-        LLVM_PREFIX=$(brew --prefix llvm)
-        export PATH="${LLVM_PREFIX}/bin:$PATH"
-        cd build-macos
-        make check
-    
     - name: Display test results
       if: always()
       run: |
