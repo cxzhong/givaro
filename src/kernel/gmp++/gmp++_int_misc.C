@@ -430,9 +430,20 @@ namespace Givaro {
 
     Integer::operator std::string () const
     {
+#if defined(__GIVARO_GMP_NO_CXX) || defined(_LIBCPP_VERSION)
+        // Use C functions for libc++ to avoid GMP C++ iostream issues
+        char * str = NULL;
+        str = mpz_get_str(NULL, 10, (mpz_srcptr)&gmp_rep);
+        std::string result(str);
+        void (*freefunc)(void *, size_t);
+        mp_get_memory_functions(NULL, NULL, &freefunc);
+        freefunc(str, strlen(str) + 1);
+        return result;
+#else
         std::ostringstream o ;
         print(o);
         return o.str();
+#endif
     }
 
     Integer::operator Integer::vect_t () const

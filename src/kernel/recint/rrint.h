@@ -117,6 +117,9 @@ namespace RecInt
 
 }
 
+// libc++ (LLVM's C++ standard library) does not allow specialization of std::make_signed.
+// Only define these specializations when using libstdc++ (GNU's C++ standard library).
+#if !defined(_LIBCPP_VERSION)
 namespace std
 {
     template <size_t K> struct make_signed<RecInt::rint<K>> {
@@ -125,8 +128,8 @@ namespace std
     template <size_t K> struct make_signed<RecInt::ruint<K>> {
         typedef RecInt::rint<K> type;
     };
-
 }
+#endif
 
 #endif
 
