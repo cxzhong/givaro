@@ -107,9 +107,12 @@ jobs:
         autoreconf -vif
         mkdir -p build-macos
         cd build-macos
+        # Set paths for Homebrew-installed GMP
+        GMP_PREFIX=$(brew --prefix gmp)
         ../configure CC=clang CXX=clang++ \
-                     CXXFLAGS="-stdlib=libc++ -D__GIVARO_GMP_NO_CXX" \
-                     LDFLAGS="-stdlib=libc++"
+                     CPPFLAGS="-I${GMP_PREFIX}/include" \
+                     LDFLAGS="-L${GMP_PREFIX}/lib -stdlib=libc++" \
+                     CXXFLAGS="-stdlib=libc++ -D__GIVARO_GMP_NO_CXX"
     
     - name: Build
       run: |
