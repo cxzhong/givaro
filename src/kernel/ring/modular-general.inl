@@ -46,6 +46,23 @@ typename std::enable_if<std::is_floating_point<T>::value>::type> {
     typedef typename IntType<std::is_same<T,float>::value>::type type;
 };
 
+// Specializations for RecInt types
+// RecInt::ruint<K> -> RecInt::rint<K> (unsigned to signed)
+template<size_t K>
+struct make_signed_int<RecInt::ruint<K>, void> {
+    typedef RecInt::rint<K> type;
+};
+
+// RecInt::rint<K> -> RecInt::rint<K> (already signed)
+template<size_t K>
+struct make_signed_int<RecInt::rint<K>, void> {
+    typedef RecInt::rint<K> type;
+};
+
+// Convenience alias template (C++14 and later)
+template<typename T>
+using make_signed_int_t = typename make_signed_int<T>::type;
+
 template<typename> struct is_ruint : std::false_type {};
 template<size_t K> struct is_ruint<RecInt::ruint<K>> : std::true_type {};
 
