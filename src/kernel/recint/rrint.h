@@ -117,17 +117,6 @@ namespace RecInt
 
 }
 
-namespace std
-{
-    template <size_t K> struct make_signed<RecInt::rint<K>> {
-        typedef RecInt::rint<K> type;
-    };
-    template <size_t K> struct make_signed<RecInt::ruint<K>> {
-        typedef RecInt::rint<K> type;
-    };
-
-}
-
 #endif
 
 /* -*- mode: C++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
